@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const User=require('../Models/User')
 
 const isAuth= async (req,res,next)=>{
-const token= req.header('x-auth-token')
+const token=await req.headers["authorization"]
 if (!token) return res.send ({msg:"no authorization detected"})
 //check token
 const decoded=await jwt.verify(token,"ninja")

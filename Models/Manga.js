@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
  
+const GenreSchema = new Schema({
+  name:{
+     type:[String]
+ }
+})
+
 const newSchema = new Schema({
   title: {
     type: String,
@@ -24,10 +30,11 @@ const newSchema = new Schema({
   }, 
   rating:{
     type: Number,
-    required: true 
+    required: true,
+    default: 0
   },
-  genre:{
-    type: Schema.Types.ObjectId, ref: "Genre",
+  Genre:{
+    type: [GenreSchema],
     required: true
   }
 })
