@@ -1,11 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
  
-const GenreSchema = new Schema({
-  name:{
-     type:String
- }
-})
 
 const newSchema = new Schema({
   title: {
@@ -34,7 +29,7 @@ const newSchema = new Schema({
     default: 0
   },
   Genre:{
-    type: [GenreSchema],
+    type: [String],
     required: true
   }
 })

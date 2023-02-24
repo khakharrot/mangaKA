@@ -14,7 +14,7 @@ const isAdmin= require ("../Middlewares/isAdmin")
 
 
 // show user list
-router.get("/usersList",isAuth,isAdmin,async (req,res)=>{
+router.get("/usersList" , async (req,res)=>{
     const list=await User.find()
     res.send({msg:"List of all the users",list})
    })
@@ -84,20 +84,20 @@ const {_id}=req.params
 
    
    //delete a user
-   router.delete("/deleteUser/:_id",isAuth,isAdmin, async (req,res)=>{
+   router.delete("/deleteUser/:_id", async (req,res)=>{
     const {_id}=req.params
-    await User.findByIdAndDelete((_id))
-    res.send({msg:"User deleted successfully"})
+    const userToDelete = await User.findByIdAndDelete((_id))
+    res.send({msg:"User deleted successfully",userToDelete})
    })
  
 // add new manga
 router.post('/addManga',async (req,res)=>{
-    const {title,synopsis,picture,author,chapters,genre}=req.body
+    const {title,synopsis,picture,author,chapters,Genre}=req.body
     // check if mangas already exist
  let  manga=await Manga.findOne({title})
  if (manga) {return res.send("Manga already exist")}
 
-     manga = new Manga({title,synopsis,picture,author,chapters,genre})
+     manga = new Manga({title,synopsis,picture,author,chapters,Genre})
     await manga.save()
     res.send({msg:"Manga added successfully",manga})
 })
@@ -118,7 +118,8 @@ res.send({msg:"Search result",searchManga})
 //update a manga
 router.put("/updateManga/:_id",isAuth,async (req,res)=>{
 const {_id}=req.params
-const toUpdate= await Manga.findByIdAndUpdate((_id),{$set:req.body})
+const {title,synopsis,picture,author,chapters}=req.body
+const toUpdate= await Manga.findByIdAndUpdate((_id),{title,synopsis,picture,author,chapters},{new : true})
  res.send({msg:"Manga updated successfully",toUpdate})
 })
 
